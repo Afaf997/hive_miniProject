@@ -28,7 +28,10 @@ class AnimationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
         SizedBox(
           height: 500,
           width: 400,
@@ -40,7 +43,6 @@ class AnimationPage extends StatelessWidget {
         icon: Icons.arrow_forward,
         onpressed: () => GoRouter.of(context).go("/second"),
         backgroundColor:const Color.fromARGB(255, 5, 26, 43)
-        // hi
       ),
     );
   }

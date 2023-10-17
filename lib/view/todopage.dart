@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:project_withprovider/controller/maincontroller.dart';
 import 'package:project_withprovider/controller/todolistcontroller.dart';
-import 'package:project_withprovider/model/todomodel.dart';
-// import 'package:project_withprovider/view/detailwidget.dart';
 import 'package:project_withprovider/view/list.dart';
 import 'package:project_withprovider/view/showList.dart';
 import 'package:project_withprovider/view/showTodo.dart.dart';
 import 'package:project_withprovider/view/todo.dart';
-// import 'package:hive_provider/controller/todoListController.dart';
-// import 'package:hive_provider/widgets/buttons.dart';
 import 'package:provider/provider.dart';
 
 class ListDetailsWidget extends StatelessWidget {
@@ -34,11 +30,11 @@ class ListDetailsWidget extends StatelessWidget {
       selectedWidget =  ListDetailsWidget ();
     }
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 201, 199, 199),
+      backgroundColor: Color.fromARGB(255, 222, 224, 241),
       body: screens[mainprovider.selectedIndex.index],
       bottomNavigationBar: Container(
           height: 80,
-          color: const Color.fromARGB(255, 5, 26, 43),
+          color: Color.fromARGB(255, 7, 19, 31),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 9),
             child: GNav(
@@ -64,7 +60,7 @@ class ListDetailsWidget extends StatelessWidget {
               _addListItem(context);
             }
           },
-          backgroundColor: const Color.fromARGB(255, 5, 26, 43),
+          backgroundColor: Color.fromARGB(255, 5, 14, 27),
           child: const Icon(Icons.add)),
     );
   }
@@ -75,28 +71,26 @@ void _addTodoItem(todoListViewModel , BuildContext context) {
   final subtitlecontroller = TextEditingController();
   // ignore: no_leading_underscores_for_local_identifiers
   Widget _buildInputField({
+
     TextEditingController? controller,
     // IconData? icon,
     String hintText = '',
     dynamic color,
-    double? height,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
+      padding: const EdgeInsets.all(25),
       child: TextField(
           controller: controller,
           decoration: InputDecoration(
-          // prefixIcon: icon != null ? Icon(icon) : null,
           hintText: hintText,
           contentPadding: const EdgeInsets.all(16.0),
-           filled: true, // Set filled to true
+           filled: true,
            fillColor: const Color.fromARGB(255, 211, 208, 208),
         ),
       ),
     );
   }
   showModalBottomSheet(
-  backgroundColor: const Color.fromARGB(255, 212, 211, 211),
     context: context,
     builder: (BuildContext context) {
       return Container(
@@ -105,7 +99,8 @@ void _addTodoItem(todoListViewModel , BuildContext context) {
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
-        color: Colors.white, 
+        // color:const Color.fromARGB(255, 5, 26, 43),
+        color: Color.fromARGB(255, 229, 229, 236) 
       ),
         child: Padding(
           padding:const EdgeInsets.only(top: 40),
@@ -118,21 +113,35 @@ void _addTodoItem(todoListViewModel , BuildContext context) {
               _buildInputField(
                 controller: subtitlecontroller,
                 hintText: 'Description',
-                height: 200,
+                 color: Colors.grey
+          
               ),
               Padding(
-                padding:const EdgeInsets.only(left: 230, top: 30),
+                padding:const EdgeInsets.only(left: 240, top: 30),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor:  const Color.fromARGB(255, 9, 30, 48), // Text color
+                    backgroundColor: Color.fromARGB(255, 25, 13, 66), 
+                  // Text color
                         elevation: 5),
                   onPressed: () {
+                      if (todoListViewModel.editingTodo != null) {
+                      // Update existing todo
+                      todoListViewModel.updateTodoList(
+                        todoListViewModel.editingTodo!,
+                        titlecontroller.text,
+                        subtitlecontroller.text,
+                      );
+                    } else {
+                      // Add a new todo
                       todoListViewModel.addTodoList(
                         titlecontroller.text,
                         subtitlecontroller.text,
                       );
-                      Navigator.pop(context);
+                    }
+                    Navigator.pop(context);
+                    titlecontroller.clear();
+                    subtitlecontroller.clear();
                   },
                   child: const Text("Save"),
                 ),
