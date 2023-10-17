@@ -40,6 +40,7 @@ class AnimationPage extends StatelessWidget {
         icon: Icons.arrow_forward,
         onpressed: () => GoRouter.of(context).go("/second"),
         backgroundColor:const Color.fromARGB(255, 5, 26, 43)
+        // hi
       ),
     );
   }
