@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_withprovider/controller/maincontroller.dart';
+import 'package:project_withprovider/controller/notesController.dart';
+import 'package:project_withprovider/controller/time.dart';
 import 'package:project_withprovider/controller/todolistcontroller.dart';
 import 'package:project_withprovider/model/todomodel.dart';
 import 'package:project_withprovider/view/mainPage.dart';
@@ -17,10 +19,13 @@ void main() async {
   Hive.init(directory.path);
   Hive.registerAdapter(ToDoModelAdapter());
   await Hive.openBox<ToDoModel>("todosBox");
+  Hive.registerAdapter(TodoAdapter());
+  await Hive.openBox<Todo>("todo");
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider( create: (_) => Mainprovider(),
-    ),
+    ChangeNotifierProvider(create: (_) => Mainprovider()),
     ChangeNotifierProvider(create: (_) => TodoListController()),
+    ChangeNotifierProvider(create: (_) => Notescontroller()),
+    ChangeNotifierProvider(create: (_) => ViewModeProvider()),
   ], child: MyApp()));
 }
